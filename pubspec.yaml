@@ -39,6 +39,8 @@ dependencies:
   agora_rtc_engine: ^5.1.0
   flutter_dotenv: ^5.0.2
   provider: ^6.0.2
+  firebase_auth: ^3.3.8
+  firebase_core: ^1.12.0
 
 dev_dependencies:
   flutter_test:
