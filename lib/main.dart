@@ -1,3 +1,4 @@
+import 'package:app/viewmodel/channel_provider.dart';
 import 'package:app/viewmodel/video_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => VideoProvider()),
+        ChangeNotifierProvider(create: (_) => ChannelProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

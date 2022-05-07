@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:app/model/channels/connect_channel_model.dart';
 import 'package:app/widgets.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -23,10 +24,11 @@ class VideoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  init({required String channel}) async {
+  init() async {
     await [Permission.microphone, Permission.camera].request();
 
     _engine = await RtcEngine.create(dotenv.env['AGORA_KEY']!);
+
     await _engine!.enableLocalVideo(true);
     await _engine!.enableVideo();
 
@@ -46,13 +48,12 @@ class VideoProvider with ChangeNotifier {
         },
       ),
     );
-
-    int ts = DateTime.now().millisecondsSinceEpoch;
-    int max = 100;
-    int id = Random().nextInt(max);
-    await _engine?.joinChannel(dotenv.env['AGORA_TOKEN'], channel, null, id);
-
     notifyListeners();
+  }
+
+  joinChannel(ConnectChannelModel channel) async {
+    await _engine?.joinChannel(dotenv.env['AGORA_TOKEN'], channel.channelId!,
+        null, int.parse(channel.id!));
   }
 
   startVideo() {

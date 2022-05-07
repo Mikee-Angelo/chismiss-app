@@ -2,7 +2,9 @@ import 'package:app/tools/pallete.dart';
 import 'package:app/view/widgets/button.dart';
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
+import 'package:app/viewmodel/channel_provider.dart';
 import 'package:app/viewmodel/video_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets.dart';
@@ -19,8 +21,13 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    User? user = FirebaseAuth.instance.currentUser;
+    final vp = Provider.of<VideoProvider>(context, listen: false);
+    final cp = Provider.of<ChannelProvider>(context, listen: false);
 
-    Provider.of<VideoProvider>(context, listen: false).init(channel: 'test');
+    vp.init();
+    cp.connect(user!.uid);
+    vp.joinChannel(cp.channel!);
   }
 
   @override
